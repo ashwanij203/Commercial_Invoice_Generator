@@ -8,8 +8,20 @@ dotenv.config();
 const app = express();
 
 // Middleware
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:5173',
+  /\.vercel\.app$/,  // Allow all Vercel preview/production domains
+];
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: (origin, callback) => {
+    // Allow requests with no origin (Postman, server-to-server)
+    if (!origin) return callback(null, true);
+    const allowed = allowedOrigins.some(o =>
+      o instanceof RegExp ? o.test(origin) : o === origin
+    );
+    callback(null, allowed);
+  },
   credentials: true
 }));
 app.use(express.json());
