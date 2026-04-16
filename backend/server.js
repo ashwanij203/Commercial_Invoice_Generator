@@ -42,8 +42,9 @@ const PORT = process.env.PORT || 5000;
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('✅ MongoDB connected successfully');
-    // Vercel serverless functions don't use app.listen(). We only listen if running locally.
-    if (process.env.NODE_ENV !== 'production') {
+    
+    // Listen to port only if run directly (e.g. `node server.js`), not if imported as module (e.g. Serverless)
+    if (require.main === module || process.env.LISTEN_PORT === 'true') {
       app.listen(PORT, () => {
         console.log(`🚀 Server running on port ${PORT}`);
       });
