@@ -11,7 +11,8 @@ const app = express();
 const allowedOrigins = [
   process.env.FRONTEND_URL,
   'http://localhost:5173',
-  /\.vercel\.app$/,  // Allow all Vercel preview/production domains
+  /\.vercel\.app$/,    // Allow all Vercel domains
+  /\.onrender\.com$/,  // Allow all Render domains
 ];
 app.use(cors({
   origin: (origin, callback) => {
