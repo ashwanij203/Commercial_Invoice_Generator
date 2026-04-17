@@ -3,7 +3,7 @@ services:
   - type: web
     name: jaiswal-billing-backend
     env: node
-    region: singapore          # closest to India
+    region: singapore
     plan: free
     rootDir: backend
     buildCommand: npm install
@@ -13,21 +13,20 @@ services:
       - key: NODE_ENV
         value: production
       - key: PORT
-        value: 10000            # Render always uses port 10000 internally
+        value: 10000
       - key: MONGODB_URI
-        sync: false             # Set this manually in the Render dashboard
+        sync: false
       - key: JWT_SECRET
-        sync: false             # Set this manually in the Render dashboard
+        sync: false
       - key: JWT_EXPIRE
         value: 7d
       - key: FRONTEND_URL
-        value: https://jaiswal-billing-frontend.onrender.com   # update after deploy
+        value: https://jaiswal-billing-frontend.onrender.com
 
   # ─── Frontend: React + Vite (Static Site) ────────────────────────────────────
   - type: web
     name: jaiswal-billing-frontend
     env: static
-    region: singapore
     plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
@@ -35,7 +34,7 @@ services:
     routes:
       - type: rewrite
         source: /*
-        destination: /index.html   # SPA fallback for React Router
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
-        value: https://jaiswal-billing-backend.onrender.com   # update after backend deploy
+        value: https://jaiswal-billing-backend.onrender.com
