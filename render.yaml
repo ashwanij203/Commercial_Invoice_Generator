@@ -1,10 +1,9 @@
 services:
-  # ─── Backend: Express API ────────────────────────────────────────────────────
+  # ─── Backend ─────────────────────────────────────────
   - type: web
     name: jaiswal-billing-backend
     env: node
     region: singapore
-    plan: free
     rootDir: backend
     buildCommand: npm install
     startCommand: npm start
@@ -23,11 +22,10 @@ services:
       - key: FRONTEND_URL
         value: https://jaiswal-billing-frontend.onrender.com
 
-  # ─── Frontend: React + Vite (Static Site) ────────────────────────────────────
+  # ─── Frontend ────────────────────────────────────────
   - type: web
     name: jaiswal-billing-frontend
     env: static
-    plan: free
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
