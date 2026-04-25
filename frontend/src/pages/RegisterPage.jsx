@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Store, UserPlus } from 'lucide-react';
+import { Store, UserPlus, ShieldCheck } from 'lucide-react';
 import toast from 'react-hot-toast';
+import api from '../utils/api';
 
 export default function RegisterPage() {
   const { register } = useAuth();
@@ -11,9 +12,17 @@ export default function RegisterPage() {
     name: '', email: '', password: '', confirmPassword: '',
     shopName: 'Jaiswal Furniture & Electronics',
     shopAddress: 'Abu, Rajasthan, India',
-    shopPhone: '', shopGSTIN: ''
+    shopPhone: '', shopGSTIN: '',
+    securityQuestion: '', securityAnswer: ''
   });
   const [loading, setLoading] = useState(false);
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+    api.get('/auth/security-questions')
+      .then(r => setQuestions(r.data.questions))
+      .catch(() => {});
+  }, []);
 
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
@@ -22,6 +31,7 @@ export default function RegisterPage() {
     if (!form.name || !form.email || !form.password) return toast.error('Please fill required fields');
     if (form.password !== form.confirmPassword) return toast.error('Passwords do not match');
     if (form.password.length < 6) return toast.error('Password must be at least 6 characters');
+    if (!form.securityQuestion || !form.securityAnswer) return toast.error('Please set a security question for password recovery');
     setLoading(true);
     try {
       await register(form);
@@ -65,6 +75,36 @@ export default function RegisterPage() {
                 <input type="password" className="input bg-gray-700 border-gray-600 text-white" value={form.confirmPassword} onChange={e => set('confirmPassword', e.target.value)} placeholder="Repeat password" required />
               </div>
             </div>
+
+            <hr className="border-gray-600" />
+            <p className="text-xs text-amber-400 font-medium uppercase tracking-wide flex items-center gap-1.5">
+              <ShieldCheck size={13} /> Security Question (for password recovery) *
+            </p>
+            <div>
+              <label className="label text-gray-300">Select a Question *</label>
+              <select
+                className="input bg-gray-700 border-gray-600 text-white"
+                value={form.securityQuestion}
+                onChange={e => set('securityQuestion', e.target.value)}
+                required
+              >
+                <option value="">Choose a security question...</option>
+                {questions.map((q, i) => (
+                  <option key={i} value={q}>{q}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="label text-gray-300">Your Answer *</label>
+              <input
+                className="input bg-gray-700 border-gray-600 text-white"
+                value={form.securityAnswer}
+                onChange={e => set('securityAnswer', e.target.value)}
+                placeholder="Your answer (case-insensitive)"
+                required
+              />
+            </div>
+
             <hr className="border-gray-600" />
             <p className="text-xs text-gray-400 font-medium uppercase tracking-wide">Shop Details</p>
             <div>
