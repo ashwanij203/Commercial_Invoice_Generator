@@ -55,20 +55,109 @@
 }
 
 @media print {
-  /* Force browsers to print all backgrounds and colors perfectly */
+  /* ── Page Setup ─────────────────────────────────────── */
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm;
+  }
+
+  /* Force browsers to print all backgrounds and colors */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
   }
 
-  body {
+  html, body {
+    width: 210mm !important;
     background: white !important;
     color: black !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
   }
 
-  /* Prevent page breaks inside important table rows/components */
-  .page-break-inside-avoid {
+  /* ── Hide UI Chrome ─────────────────────────────────── */
+  nav, aside, header,
+  .print\:hidden,
+  [class*="glass-header"],
+  button, .btn-primary, .btn-secondary, .btn-danger {
+    display: none !important;
+  }
+
+  /* ── Reset Layout (remove sidebar margin) ───────────── */
+  body > div,
+  #root,
+  #root > div,
+  #root > div > div {
+    margin: 0 !important;
+    margin-left: 0 !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  main {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* ── Invoice Card ───────────────────────────────────── */
+  #invoice-print {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    background: white !important;
+  }
+
+  /* Container resets */
+  .max-w-4xl {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* ── Compact Typography ─────────────────────────────── */
+  h1 { font-size: 16px !important; }
+  h2 { font-size: 14px !important; }
+
+  /* ── Tables ─────────────────────────────────────────── */
+  table {
+    font-size: 10px !important;
+    border-collapse: collapse !important;
+  }
+  th, td {
+    padding: 4px 6px !important;
+  }
+
+  /* ── Prevent page breaks inside key sections ────────── */
+  .page-break-inside-avoid,
+  table, tr, thead, tbody,
+  #invoice-print > div {
     page-break-inside: avoid;
     break-inside: avoid;
   }
+
+  /* ── Tighten Spacing ────────────────────────────────── */
+  .mb-8 { margin-bottom: 8px !important; }
+  .mb-6 { margin-bottom: 6px !important; }
+  .pb-6 { padding-bottom: 6px !important; }
+  .pt-6 { padding-top: 6px !important; }
+  .gap-8 { gap: 8px !important; }
+  .p-4 { padding: 6px !important; }
+  .p-8 { padding: 0 !important; }
+  .space-y-6 > * + * { margin-top: 6px !important; }
+  .space-y-4 > * + * { margin-top: 4px !important; }
+  .pt-16 { padding-top: 30px !important; }
+  .pb-8 { padding-bottom: 4px !important; }
+  .pr-10 { padding-right: 16px !important; }
+  .mt-4 { margin-top: 4px !important; }
 }
