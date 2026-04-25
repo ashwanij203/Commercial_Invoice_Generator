@@ -55,13 +55,11 @@
 }
 
 @media print {
-  /* ── Page Setup ─────────────────────────────────────── */
   @page {
     size: A4 portrait;
-    margin: 12mm 14mm;
+    margin: 10mm;
   }
 
-  /* Force browsers to print all backgrounds and colors */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -72,26 +70,19 @@
   html, body {
     background: white !important;
     color: black !important;
-    font-size: 13px !important;
-    line-height: 1.5 !important;
     margin: 0 !important;
     padding: 0 !important;
-    overflow: visible !important;
   }
 
-  /* ── Hide UI Chrome ─────────────────────────────────── */
+  /* Hide everything that's not the invoice */
+  .no-print,
   nav, aside, header,
-  .print\:hidden,
-  [class*="glass-header"],
-  button, .btn-primary, .btn-secondary, .btn-danger {
+  [class*="glass-header"] {
     display: none !important;
   }
 
-  /* ── Reset Layout (remove sidebar margin) ───────────── */
-  body > div,
-  #root,
-  #root > div,
-  #root > div > div {
+  /* Remove sidebar margin + padding from layout */
+  body > div, #root, #root > div, #root > div > div, main {
     margin: 0 !important;
     margin-left: 0 !important;
     padding: 0 !important;
@@ -99,75 +90,34 @@
     width: 100% !important;
   }
 
-  main {
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  /* ── Invoice Card ───────────────────────────────────── */
-  #invoice-print {
-    box-shadow: none !important;
-    border: none !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    max-width: 100% !important;
-    width: 100% !important;
-    background: white !important;
-  }
-
-  /* Container resets */
   .max-w-4xl {
     max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
   }
 
-  /* ── Typography ─────────────────────────────────────── */
-  h1 { font-size: 20px !important; }
-  h2 { font-size: 16px !important; }
-
-  /* ── Tables ─────────────────────────────────────────── */
-  table {
-    font-size: 12px !important;
-    border-collapse: collapse !important;
-    width: 100% !important;
-  }
-  th, td {
-    padding: 6px 10px !important;
+  #invoice-print {
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    background: white !important;
+    padding: 0 !important;
   }
 
-  /* ── Prevent page breaks inside key sections ────────── */
-  .page-break-inside-avoid,
-  table, thead, tbody,
-  #invoice-print > div {
+  /* Ensure all content stays on one page */
+  #invoice-print, #invoice-print > div {
     page-break-inside: avoid;
     break-inside: avoid;
   }
 
-  /* ── Adjust Spacing for Print ───────────────────────── */
-  .mb-8 { margin-bottom: 16px !important; }
-  .mb-6 { margin-bottom: 12px !important; }
-  .pb-6 { padding-bottom: 12px !important; }
-  .pt-6 { padding-top: 12px !important; }
-  .gap-8 { gap: 16px !important; }
-  .p-4 { padding: 10px !important; }
-  .p-8 { padding: 0 !important; }
-  .space-y-6 > * + * { margin-top: 12px !important; }
-  .space-y-4 > * + * { margin-top: 8px !important; }
-  .pt-16 { padding-top: 40px !important; }
-  .pb-8 { padding-bottom: 8px !important; }
-  .pr-10 { padding-right: 20px !important; }
-  .mt-4 { margin-top: 8px !important; }
-
-  /* ── Footer at bottom ───────────────────────────────── */
-  #invoice-print {
-    min-height: calc(297mm - 24mm) !important; /* A4 height minus margins */
-    display: flex !important;
-    flex-direction: column !important;
+  /* Make the dark Grand Total row print properly */
+  .bg-gray-800 {
+    background-color: #1f2937 !important;
+    color: white !important;
   }
-  #invoice-print > div:last-child {
-    margin-top: auto !important; /* Push footer (Terms & Signature) to bottom */
+
+  .bg-gray-100 {
+    background-color: #f3f4f6 !important;
   }
 }
 
