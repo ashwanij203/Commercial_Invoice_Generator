@@ -1,6 +1,3 @@
 // Vercel Serverless Function — wraps the Express app
-// Load env vars relative to this file's location
-const path = require('path');
-require('dotenv').config({ path: path.join(__dirname, '../backend/.env') });
-
+// Vercel injects environment variables directly, no .env file needed
 module.exports = require('../backend/server');
